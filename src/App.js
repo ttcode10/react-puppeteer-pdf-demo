@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import getPdf from './apis';
+import {getPdf, test} from './apis';
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
           Learn React
         </a>
         <button onClick={() => getPdf()}>Download PDF</button>
+        <button onClick={() => test()}>Test API</button>
       </header>
     </div>
   );

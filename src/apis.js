@@ -1,15 +1,22 @@
 import axios from 'axios';
+import download from 'downloadjs'
+
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api',
+});
 
 const getPdf = () => {
-  // console.log(window.location.host);
-  // const {host, protocol} = window.location;
-  axios.get('/pdf', {
+  const {host, protocol} = window.location;
+  api.get('/pdf', {
     params: {
-      target: window.location.href.toString(),
-    }
+      host: host,
+      protocol: protocol,
+    },
+    responseType: 'blob',
   })
-    .then(function (response) {
-      console.log(response);
+    .then(response => {
+      const content = response.headers['content-type'];
+      download(response.data, 'sample.pdf', content)
     })
     .catch(function (error) {
       console.log(error);
@@ -17,6 +24,20 @@ const getPdf = () => {
     .then(function () {
       // always executed
     });
-}
+};
 
-export default getPdf;
+
+const test = () => {
+  api.get('/test')
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .then(() => {
+      // always executed
+    });
+};
+
+export {getPdf, test};
